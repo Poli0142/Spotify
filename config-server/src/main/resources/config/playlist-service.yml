@@ -1,0 +1,9 @@
+server:
+  port: 8093
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/music_playlists
+
+clients:
+  catalog-url: http://catalog-service

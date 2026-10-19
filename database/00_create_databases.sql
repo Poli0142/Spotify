@@ -1,0 +1,9 @@
+DROP DATABASE IF EXISTS music_users WITH (FORCE);
+DROP DATABASE IF EXISTS music_catalog WITH (FORCE);
+DROP DATABASE IF EXISTS music_playlists WITH (FORCE);
+DROP DATABASE IF EXISTS music_streaming WITH (FORCE);
+
+CREATE DATABASE music_users;
+CREATE DATABASE music_catalog;
+CREATE DATABASE music_playlists;
+CREATE DATABASE music_streaming;

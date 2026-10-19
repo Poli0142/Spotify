@@ -1,0 +1,90 @@
+server:
+  port: 8090
+
+spring:
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+          - id: users
+            uri: lb://user-service
+            predicates:
+              - Path=/api/users/**
+            filters:
+              - name: CircuitBreaker
+                args:
+                  name: user-service
+                  fallbackUri: forward:/fallback/user-service
+          - id: catalog
+            uri: lb://catalog-service
+            predicates:
+              - Path=/api/artists/**,/api/albums/**,/api/tracks/**
+            filters:
+              - name: CircuitBreaker
+                args:
+                  name: catalog-service
+                  fallbackUri: forward:/fallback/catalog-service
+          - id: playlists
+            uri: lb://playlist-service
+            predicates:
+              - Path=/api/playlists/**
+            filters:
+              - name: CircuitBreaker
+                args:
+                  name: playlist-service
+                  fallbackUri: forward:/fallback/playlist-service
+          - id: streaming
+            uri: lb://streaming-service
+            predicates:
+              - Path=/api/stream/**
+            filters:
+              - name: CircuitBreaker
+                args:
+                  name: streaming-service
+                  fallbackUri: forward:/fallback/streaming-service
+          - id: user-service-docs
+            uri: lb://user-service
+            predicates:
+              - Path=/user-service/v3/api-docs
+            filters:
+              - RewritePath=/user-service/(?<path>.*), /$\{path}
+          - id: catalog-service-docs
+            uri: lb://catalog-service
+            predicates:
+              - Path=/catalog-service/v3/api-docs
+            filters:
+              - RewritePath=/catalog-service/(?<path>.*), /$\{path}
+          - id: playlist-service-docs
+            uri: lb://playlist-service
+            predicates:
+              - Path=/playlist-service/v3/api-docs
+            filters:
+              - RewritePath=/playlist-service/(?<path>.*), /$\{path}
+          - id: streaming-service-docs
+            uri: lb://streaming-service
+            predicates:
+              - Path=/streaming-service/v3/api-docs
+            filters:
+              - RewritePath=/streaming-service/(?<path>.*), /$\{path}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,gateway,circuitbreakers,circuitbreakerevents
+  endpoint:
+    gateway:
+      access: read_only
+
+springdoc:
+  swagger-ui:
+    urls:
+      - name: user-service
+        url: /user-service/v3/api-docs
+      - name: catalog-service
+        url: /catalog-service/v3/api-docs
+      - name: playlist-service
+        url: /playlist-service/v3/api-docs
+      - name: streaming-service
+        url: /streaming-service/v3/api-docs
