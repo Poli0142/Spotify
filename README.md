@@ -97,5 +97,3 @@
 
 
 <p>GitHub: <a href="https://github.com/polyaplades-maker">polyaplades-maker</a></p>
-<p>GitHub: <a href="https://github.com/RYOTA1080">RYOTA1080</a></p>
-<p>GitHub: <a href="https://github.com/Poli0142">Poli0142</a></p>
